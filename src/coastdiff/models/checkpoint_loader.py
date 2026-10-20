@@ -12,6 +12,7 @@ import numpy as np
 import torch
 
 from ..data.channels import OUT_CH
+from .download import ensure_checkpoint
 from .vendor import checkpoint_io
 from .vendor.edm_precond import EDMPrecondSuperResolution
 from .vendor.generate import diffusion_step, regression_step
@@ -67,6 +68,7 @@ def load_models(regression_ckpt_dir: str, diffusion_ckpt_dir: str, device: torch
             "sampler used in practice); pass sampler='stochastic'."
         )
 
+    ensure_checkpoint(regression_ckpt_dir, "CorrDiffRegressionUNet")
     reg_ckpt = find_latest_checkpoint(regression_ckpt_dir, "CorrDiffRegressionUNet")
     net_reg = checkpoint_io.load_checkpoint(
         reg_ckpt, CorrDiffRegressionUNet, device=device, override_args={"use_apex_gn": False}
@@ -78,6 +80,7 @@ def load_models(regression_ckpt_dir: str, diffusion_ckpt_dir: str, device: torch
     net_res = None
     res_ckpt = None
     if mode == "all":
+        ensure_checkpoint(diffusion_ckpt_dir, "EDMPrecondSuperResolution")
         res_ckpt = find_latest_checkpoint(diffusion_ckpt_dir, "EDMPrecondSuperResolution")
         net_res = checkpoint_io.load_checkpoint(
             res_ckpt, EDMPrecondSuperResolution, device=device, override_args={"use_apex_gn": False}

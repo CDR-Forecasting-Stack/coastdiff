@@ -178,4 +178,11 @@ cython_debug/
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
-.cursorindexingignore.DS_Store
+.cursorindexingignore
+
+# macOS
+.DS_Store
+
+# Model weights (published on Zenodo, downloaded on first use)
+*.mdlus
+

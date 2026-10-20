@@ -1,20 +1,23 @@
 # Single source of truth for checkpoint locations, stats, and CLI defaults.
 #
-# All paths below (except output_dir) are relative to the PACKAGE ROOT (the
-# directory this file's parent lives in), not the caller's working
+# All relative paths below (except output_dir) are relative to the installed PACKAGE (the
+# coastdiff/ directory containing this file's parent), not the caller's working
 # directory -- see config.py:load_config -- so this package is fully
 # self-contained and portable: unzip it anywhere and it just works.
 #
 # Checkpoint paths are DIRECTORIES, not filenames: the latest checkpoint
 # (highest training-iteration .mdlus file) in each directory is auto-
 # selected on every run (see models/checkpoint_loader.py:find_latest_checkpoint).
-# To update the model on a machine where you rebuilt/retrained it, replace
-# the .mdlus file(s) in these directories (or add a newer one alongside) --
-# no config or code change needed.
-regression_checkpoint_dir: checkpoints/regression
-diffusion_checkpoint_dir: checkpoints/diffusion
+# If a directory has no checkpoint, the published one is downloaded from Zenodo
+# (doi:10.5281/zenodo.23510727, models/download.py) and verified by SHA-256 on first
+# use. To use a retrained model, add its .mdlus file to these directories (or point
+# them elsewhere) -- no code change needed. "~" is expanded; relative paths are
+# relative to the installed package.
+regression_checkpoint_dir: ~/.cache/coastdiff/checkpoints/regression
+diffusion_checkpoint_dir: ~/.cache/coastdiff/checkpoints/diffusion
 
-# Normalization stats (mean/std per channel), from training. Bundled.
+# Normalization stats (mean/std per channel), from training. Bundled in the
+# package; must match the checkpoints.
 stats_path: assets/stats.json
 
 # The output grid and the terrain/land-sea invariants are built/fetched live

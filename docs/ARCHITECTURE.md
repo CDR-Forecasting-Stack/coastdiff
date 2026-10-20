@@ -12,7 +12,7 @@ dependency" below):
    regression network smooths away. Run per ensemble member.
 
 Both stages are loaded from checkpoint directories configured in
-`configs/default.yaml`; the highest training-iteration checkpoint in each
+`src/coastdiff/configs/default.yaml`; the highest training-iteration checkpoint in each
 directory is used (see `models/checkpoint_loader.find_latest_checkpoint`).
 
 ## No PhysicsNeMo dependency

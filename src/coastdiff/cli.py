@@ -38,8 +38,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--end", default=None, help=f"end of a continuous range, UTC, inclusive (default {DEFAULT_END})")
     p.add_argument("--interval", default=DEFAULT_INTERVAL,
                     help=f"step for --start/--end, e.g. '1h', '6h', '1d' (default {DEFAULT_INTERVAL})")
-    p.add_argument("--output-dir", default=None, help="default: configs/default.yaml's output_dir")
-    p.add_argument("--config", default=None, help="default: configs/default.yaml")
+    p.add_argument("--output-dir", default=None, help="default: coastdiff/configs/default.yaml's output_dir")
+    p.add_argument("--config", default=None, help="default: coastdiff/configs/default.yaml")
     p.add_argument("--num-ensembles", type=int, default=4)
     p.add_argument("--seed-batch-size", type=int, default=1)
     p.add_argument("--overlap", type=int, default=3,

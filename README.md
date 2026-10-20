@@ -8,8 +8,8 @@ deterministic regression network followed by a diffusion model that restores sma
 - **Input:** ERA5 only, read live from the public ARCO ERA5 archive. Nothing to download beforehand.
 - **Output:** one NetCDF file per hour, with the deterministic prediction and a diffusion ensemble.
 - **Inference only:** no training or test data is included.
-- **Self-contained:** both trained checkpoints and the normalization statistics are bundled, and
-  `torch` is the only machine-learning dependency.
+- **Lightweight install:** the normalization statistics are bundled; the two trained checkpoints
+  (~640 MB) are downloaded once from Zenodo on first use. `torch` is the only machine-learning dependency.
 
 ```python
 from coastdiff import run_inference          # import name: coastdiff
@@ -30,19 +30,28 @@ from coastdiff import run_inference          # import name: coastdiff
 11. [Command-line options](#command-line-options)
 12. [Updating the model](#updating-the-model)
 13. [Repository layout and tests](#repository-layout-and-tests)
-14. [Authors and license](#authors-and-license)
+14. [Citation](#citation)
+15. [Authors and license](#authors-and-license)
 
 ## Install
 
-Requires Python 3.11+, internet access (to read ERA5), and preferably one NVIDIA GPU (the CPU works
-but is slow). Create an environment, then install from the package folder:
+Requires Python 3.11+, internet access (to read ERA5 and, once, to download the checkpoints), and
+preferably one NVIDIA GPU (the CPU works but is slow). Create an environment, then install straight
+from GitHub:
 
 ```bash
 conda create -n coastdiff python=3.11 -y && conda activate coastdiff
-cd coastdiff
-pip install -e .
+pip install git+https://github.com/CDR-Forecasting-Stack/coastdiff.git
 coastdiff --help
 ```
+
+For development, clone the repository and run `pip install -e .` instead.
+
+**Checkpoints.** The first run downloads the two checkpoints (~640 MB) from Zenodo
+([doi:10.5281/zenodo.23510727](https://doi.org/10.5281/zenodo.23510727)) into
+`~/.cache/coastdiff/checkpoints/`, verifies their SHA-256, and reuses them afterwards. To fetch them
+by hand, download both `.mdlus` files from the Zenodo record into
+`~/.cache/coastdiff/checkpoints/regression/` and `.../diffusion/` respectively.
 
 `pyproject.toml` pins `torch` and `zarr` to versions verified against the bundled checkpoints and the
 ERA5 archive. Keep them pinned: unpinned upgrades have broken checkpoint loading and Zarr access.
@@ -273,47 +282,52 @@ done
 | `--mode` | `all` | `regression` skips the diffusion model for a fast deterministic preview |
 | `--sampler`, `--sampler-steps`, `--solver` | `stochastic`, model default, `euler` | diffusion sampler settings |
 | `--seed`, `--seed-batch-size` | 0, 1 | random seed; ensemble members run per batch |
-| `--config` | `configs/default.yaml` | alternative configuration file |
+| `--config` | `src/coastdiff/configs/default.yaml` | alternative configuration file |
 
 `coastdiff --help` prints the same list.
 
 ## Updating the model
 
-Both checkpoints (`checkpoints/regression/`, `checkpoints/diffusion/`, ~305 MB each) and
-`assets/stats.json` are bundled, so the package works wherever you unpack it. `configs/default.yaml`
+The checkpoints are published on Zenodo ([doi:10.5281/zenodo.23510727](https://doi.org/10.5281/zenodo.23510727))
+and cached in `~/.cache/coastdiff/checkpoints/{regression,diffusion}/`; the normalization statistics
+(`src/coastdiff/assets/stats.json`) are bundled with the package. `src/coastdiff/configs/default.yaml`
 points at the checkpoint **folders**, and the highest-iteration `.mdlus` file in each is chosen on
-every run. To use a newly trained model, add its two `.mdlus` files to those folders **and replace
-`assets/stats.json` with the statistics of the same training run** (the statistics are not chosen
-automatically, and they must match the weights). Only the inference weights (`.mdlus`) are needed,
-not optimizer state.
+every run. To use a newly trained model, add its two `.mdlus` files to those folders (or point the
+config at other folders with `--config`) **and replace `stats.json` with the statistics of the same
+training run** (the statistics are not chosen automatically, and they must match the weights). Only the
+inference weights (`.mdlus`) are needed, not optimizer state.
 
 ## Repository layout and tests
 
 ```
 coastdiff/
   README.md  LICENSE  NOTICE  pyproject.toml
-  configs/default.yaml        checkpoint folders, statistics path, output folder, rain-filter default
-  assets/stats.json           per-channel mean / standard deviation (34 input, 8 output)
-  checkpoints/                regression/ and diffusion/ weights
   examples/                   run_example.py, run_example.sh
   scripts/                    SLURM templates
   docs/ARCHITECTURE.md        how it works and how the model code was verified
   tests/
   src/coastdiff/
+    configs/default.yaml      checkpoint folders, statistics path, output folder, rain-filter default
+    assets/stats.json         per-channel mean / standard deviation (34 input, 8 output)
     cli.py                    command-line entry point
     inference.py              the pipeline: grid, ERA5, tiling, model, stitching, output
     output.py                 NetCDF writer
     rain_filter.py            physical_constraints.py   time_utils.py   config.py
     data/                     ERA5 fetch and regrid, channel/unit tables, grid and tiling, normalization
-    models/                   checkpoint loading; vendor/ holds the model code
+    models/                   checkpoint loading and Zenodo download; vendor/ holds the model code
 ```
 
-Run the tests (the model tests need the bundled checkpoints; none need network access):
+Run the tests (the model tests need the checkpoints, downloaded on first use if absent; the rest need no network):
 
 ```bash
 pip install -e ".[test]"
 python -m pytest tests -q
 ```
+
+## Citation
+
+Pretrained checkpoints: Ranjbar, S. (2026). *CoastDiff pretrained checkpoints: two-stage CorrDiff coastal
+downscaling of ERA5 (regression + diffusion)* (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.23510727
 
 ## Authors and license
 

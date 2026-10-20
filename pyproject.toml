@@ -46,4 +46,4 @@ coastdiff = "coastdiff.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-coastdiff = []
+coastdiff = ["configs/*.yaml", "assets/*.json"]

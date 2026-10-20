@@ -7,12 +7,12 @@ from typing import Any
 
 import yaml
 
-_REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_CONFIG_PATH = _REPO_ROOT / "configs" / "default.yaml"
+_PKG_ROOT = Path(__file__).resolve().parent
+DEFAULT_CONFIG_PATH = _PKG_ROOT / "configs" / "default.yaml"
 
-# Bundled-asset keys: a relative path here is resolved against the package
-# root (so the package is portable -- works regardless of where it's
-# unzipped or what the caller's cwd is), not the caller's cwd. `output_dir`
+# Asset keys: a relative path here is resolved against the installed package
+# directory (so it works regardless of the caller's cwd), not the caller's cwd;
+# "~" is expanded, so checkpoints can live in a per-user cache. `output_dir`
 # is deliberately NOT in this list: it should resolve relative to cwd, like
 # any normal CLI output path.
 _ASSET_KEYS = ("regression_checkpoint_dir", "diffusion_checkpoint_dir", "stats_path")
@@ -24,6 +24,7 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         cfg = yaml.safe_load(f)
     for key in _ASSET_KEYS:
         val = cfg.get(key)
-        if val and not Path(val).is_absolute():
-            cfg[key] = str(_REPO_ROOT / val)
+        if val:
+            p = Path(val).expanduser()
+            cfg[key] = str(p if p.is_absolute() else _PKG_ROOT / p)
     return cfg
