@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coastdiff"
+version = "0.1.0"
+description = "ERA5-driven high-resolution (~3km) weather field inference (two-stage CorrDiff regression+diffusion)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Sadegh Ranjbar" },
+    { name = "Lucas Gloege" },
+    { name = "Elizabeth Yankovsky" },
+]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = [
+    "torch==2.14.0",
+    "gcsfs>=2026.8.1",
+    "zarr==3.1.6",
+    "xarray>=2026.7.0",
+    "netCDF4>=1.7.4",
+    "scipy>=1.17.1",
+    "certifi",
+    "PyYAML>=6.0",
+    "jaxtyping>=0.2",
+    "einops>=0.7",
+    "tqdm>=4.60",
+    "numpy",
+    # No NVIDIA PhysicsNeMo dependency: the two-stage regression+diffusion
+    # model (architecture, EDM preconditioning, sampler) is vendored in
+    # models/vendor/, adapted from PhysicsNeMo (Apache-2.0, see NOTICE).
+    # `torch` alone is the only ML-framework dependency.
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0"]
+
+[project.scripts]
+coastdiff = "coastdiff.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+coastdiff = []

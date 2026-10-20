@@ -1,0 +1,32 @@
+# Single source of truth for checkpoint locations, stats, and CLI defaults.
+#
+# All paths below (except output_dir) are relative to the PACKAGE ROOT (the
+# directory this file's parent lives in), not the caller's working
+# directory -- see config.py:load_config -- so this package is fully
+# self-contained and portable: unzip it anywhere and it just works.
+#
+# Checkpoint paths are DIRECTORIES, not filenames: the latest checkpoint
+# (highest training-iteration .mdlus file) in each directory is auto-
+# selected on every run (see models/checkpoint_loader.py:find_latest_checkpoint).
+# To update the model on a machine where you rebuilt/retrained it, replace
+# the .mdlus file(s) in these directories (or add a newer one alongside) --
+# no config or code change needed.
+regression_checkpoint_dir: checkpoints/regression
+diffusion_checkpoint_dir: checkpoints/diffusion
+
+# Normalization stats (mean/std per channel), from training. Bundled.
+stats_path: assets/stats.json
+
+# The output grid and the terrain/land-sea invariants are built/fetched live
+# from ERA5 for every request (data/grid.py:build_generic_grid), so there is
+# no grid asset to configure.
+
+# Default output directory when --output-dir is not passed. Relative to the
+# CALLER's current working directory (unlike the paths above), like any
+# normal CLI output path.
+output_dir: outputs
+
+# Rain-filter threshold (mm) applied to tp by default -- see rain_filter.py
+# for how it was chosen. Override with --rain-filter-mm, disable with
+# --no-rain-filter.
+rain_filter_mm: 0.02

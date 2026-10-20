@@ -1,0 +1,42 @@
+coastdiff
+Copyright 2026 Sadegh Ranjbar, Lucas Gloege, Elizabeth Yankovsky
+Department of Earth and Planetary Sciences, Yale University,
+New Haven, CT, United States of America
+
+This product includes software licensed under the Apache License,
+Version 2.0 (see LICENSE).
+
+================================================================================
+
+This package's model code (src/coastdiff/models/vendor/) is adapted from
+NVIDIA PhysicsNeMo and its CorrDiff model implementation. NVIDIA
+Corporation is the developer of that underlying two-stage regression +
+diffusion model architecture, EDM diffusion preconditioning, and sampler
+(originally physicsnemo.models.diffusion_unets, physicsnemo.diffusion, and
+related components). This package's own code is not affiliated with or
+endorsed by NVIDIA; it is a separate, independent work. It does not require
+a PhysicsNeMo installation at runtime -- the relevant PhysicsNeMo source
+(Apache-2.0) has been copied in and adapted (trimmed to the specific
+architecture this package's checkpoints use; PhysicsNeMo's own
+model-registry/checkpoint-format machinery replaced with a small
+self-contained loader) rather than used as an external library. This adaptation's correctness was verified by
+comparing it against the original PhysicsNeMo-backed implementation: every
+vendored model's state_dict keys/shapes match the real checkpoints
+exactly, and a full forward pass (including the stochastic diffusion
+sampler) produces bit-for-bit identical output to the original on the same
+input. See docs/ARCHITECTURE.md for details.
+
+NVIDIA PhysicsNeMo:
+  https://github.com/NVIDIA/physicsnemo
+  Copyright NVIDIA Corporation
+  Licensed under the Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Individual vendored source files retain their original NVIDIA
+Apache-2.0 SPDX headers where copied with only import-path adaptations
+(src/coastdiff/models/vendor/*.py).
+
+The checkpoints bundled in checkpoints/regression/ and checkpoints/diffusion/
+are model weights trained using the NVIDIA PhysicsNeMo CorrDiff training
+pipeline (see docs/ARCHITECTURE.md) on HRRR data from NOAA's Global Systems
+Laboratory.
