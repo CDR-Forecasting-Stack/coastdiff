@@ -156,9 +156,8 @@ target channels.
 - **Training data:** 120,000 training samples, taken from 1,200 random hourly times over
   2018-2023, 100 coastal patches of 256 x 256 HRRR pixels (~3 km) per time. Each patch has an ocean
   centre pixel and is at least 70 % ocean.
-- **Coarse input:** the native HRRR fields were low-pass filtered with a Gaussian filter
-  (sigma = 5 native pixels, ~15 km, comparable to a 50 km GCM-Filters scale) and then conservatively
-  regridded (xESMF) to the 32 x 32 grid (~24 km). No quantile mapping was applied.
+- **Coarse input:** the native HRRR fields were low-pass filtered with a 50 km GCM-Filters scale and
+  then conservatively regridded (xESMF) to the 32 x 32 grid (~24 km).
 - **Training length:** regression network 5,000,000 samples; diffusion model 50,000,000 samples.
 - **Testing:** on independent data by temporal cross-validation: training on 2018-2023, testing on
   10,000 patches from 2024-2025.

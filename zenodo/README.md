@@ -37,8 +37,8 @@ in `checkpoints/diffusion/` of the repository (see "Updating the model" in its R
 - **Input:** 34 ERA5 channels on a 32 x 32 grid (~24 km) plus 2 fixed fields (elevation, land-sea mask).
 - **Output:** 8 channels on a 256 x 256 patch (~3 km): `2t`, `10u`, `10v`, `tp`, `ssrd`, `strd`, `sp`, `q`.
 - **Training data:** NOAA HRRR analyses; 120,000 coastal patches (256 x 256 pixels, at least 70 % ocean)
-  from 1,200 random hourly times in 2018-2023. Coarse inputs were Gaussian-filtered (sigma = 5 native
-  pixels) and conservatively regridded to ~24 km.
+  from 1,200 random hourly times in 2018-2023. Coarse inputs were low-pass filtered with a 50 km
+  GCM-Filters scale and conservatively regridded (xESMF) to ~24 km.
 - **Testing:** temporal hold-out, 10,000 patches from 2024-2025.
 - **Inference:** the coarse input comes from ERA5 instead of coarsened HRRR.
 
