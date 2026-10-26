@@ -323,6 +323,19 @@ pip install -e ".[test]"
 python -m pytest tests -q
 ```
 
+## Documentation
+
+We use [material for mkdocs](https://squidfunk.github.io/mkdocs-material/) as our documentation feature framework. Here are the steps to contribute to the documentation
+
+1. Clone the dev branch: `git clone -v dev git@github.com:CDR-Forecasting-Stack/coastdiff.git`
+2. Install dependencies: `uv sync --group dev`
+3. Create virtual environment: `uv venv`
+4. Activate the virtual env: `source .venv/bin/activate`
+5. Run local server: `mkdocs serve --livereload`
+6. The site is now served locally. Open a browser and navigate to: `http://127.0.0.1:8000/coastdiff/`
+7. Now you can start changing the documentation. All files are in the `/docs` directory.
+8. Once you happy with your changes, commit the changes the push them to the `dev` branch.
+
 ## Citation
 
 Pretrained checkpoints: Ranjbar, S. (2026). *CoastDiff pretrained checkpoints: two-stage CorrDiff coastal
