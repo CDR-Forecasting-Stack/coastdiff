@@ -1,0 +1,109 @@
+:root {
+  --md-primary-fg-color: #012169;
+  --md-primary-fg-color--light: #b9d9eb;
+  --md-primary-fg-color--dark: #012169;
+  --md-accent-fg-color: #00796b;
+  --md-accent-fg-color--transparent: #00796b1a;
+}
+
+[data-md-color-scheme="default"] {
+  /* ---- Base Background ---- */
+  --md-default-bg-color: #f5f7fa; /* cool, misty white with blue tint */
+  --md-code-bg-color: #eef1f6; /* light gray-blue background for code */
+  --md-card-bg-color: #ffffff; /* crisp white for cards */
+  --md-footer-bg-color: #2b3850; /* subtle contrast at bottom */
+
+  /* ---- Primary (Hale Navy family) ---- */
+  --md-primary-fg-color: #2b3850; /* soft navy — lighter echo of dark theme */
+  --md-primary-fg-color--light: #5c6a88; /* used for hover and accents */
+  --md-primary-fg-color--dark: #182033;
+
+  /* ---- Accents ---- */
+  --md-accent-fg-color: #31748f; /* muted teal-blue accent for links/buttons */
+  --md-accent-fg-color--hover: #4ca0b5;
+
+  /* ---- Text ---- */
+  --md-typeset-color: #1c2330; /* main text — dark navy gray */
+  --md-typeset-a-color: #2b5d7c; /* link color — echo of dark theme’s accent */
+  --md-typeset-a-color--hover: #3b7b9f;
+
+  /* ---- Borders / Dividers ---- */
+  --md-divider-color: #d5dbe5; /* pale gray-blue divider */
+  --md-shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* ---- Secondary ---- */
+  --md-secondary-fg-color: #5c6a88; /* muted navy-gray */
+  --md-secondary-fg-color--light: #7c8da9;
+  --md-secondary-fg-color--dark: #3c465a;
+}
+
+[data-md-color-scheme="slate"] {
+  /* ---- Base Background ---- */
+  --md-default-bg-color: #1c2330; /* slightly lighter navy — adds separation */
+  --md-code-bg-color: #252c3c; /* code blocks still distinct */
+  --md-card-bg-color: #262e3e; /* cards/panels stand out gently */
+  --md-footer-bg-color: #434c5e;
+
+  /* ---- Primary (Hale Navy tones) ---- */
+  --md-primary-fg-color: #434c5e; /* Hale Navy */
+  --md-primary-fg-color--light: #8592b0; /* hover and text contrast */
+  --md-primary-fg-color--dark: #2b3344;
+
+  /* ---- Accents ---- */
+  --md-accent-fg-color: #88c0d0; /* arctic blue for links/buttons */
+  --md-accent-fg-color--hover: #a3d3e3;
+
+  /* ---- Text ---- */
+  --md-typeset-color: #e8eaee; /* soft white */
+  --md-typeset-a-color: #9cb3d0; /* links slightly brighter */
+  --md-typeset-a-color--hover: #b0c5e3;
+
+  /* ---- Borders / Dividers ---- */
+  --md-divider-color: #2e3548; /* subtle navy-gray line */
+  --md-shadow-color: rgba(0, 0, 0, 0.45);
+
+  /* ---- Secondary ---- */
+  --md-secondary-fg-color: #9aa5be;
+  --md-secondary-fg-color--light: #bac4d9;
+  --md-secondary-fg-color--dark: #30374a;
+}
+
+.md-typeset a {
+  color: #00796b;
+}
+
+/* ---- Single citation block ---- */
+.citation {
+  line-height: 1.6;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--md-typeset-color);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* hanging indent effect */
+  margin-left: 1.75rem;
+  text-indent: -1.75rem;
+}
+
+/* Links inside the citation */
+.citation a {
+  color: var(--md-typeset-a-color);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.citation a:hover,
+.citation a:focus {
+  color: var(--md-typeset-a-color--hover);
+  text-decoration: underline;
+}
+
+/* Smaller screens: reduce indent */
+@media (max-width: 640px) {
+  .citation {
+    margin-left: 1.25rem;
+    text-indent: -1.25rem;
+  }
+}
